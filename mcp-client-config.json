@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "server-monitor": {
+      "command": "node",
+      "args": ["/path/to/ServerMonitor_T/dist/index.js"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  server-monitor-mcp:
+    build: .
+    container_name: server-monitor-mcp
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./logs:/app/logs
+    environment:
+      - NODE_ENV=production
+      - MCP_PORT=3000
+    networks:
+      - monitoring
+
+  # Nginx 리버스 프록시 (선택사항)
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - server-monitor-mcp
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
