@@ -188,7 +188,7 @@ ServerMonitor_T/
 
 ```bash
 # 서버 포트
-MCP_PORT=3000
+MCP_PORT=8300
 
 # 노드 환경
 NODE_ENV=production

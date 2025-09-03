@@ -13,7 +13,7 @@
     "pm2:restart": "pm2 restart server-monitor-mcp",
     "pm2:logs": "pm2 logs server-monitor-mcp",
     "docker:build": "docker build -t server-monitor-mcp .",
-    "docker:run": "docker run -d --name server-monitor-mcp -p 3000:3000 server-monitor-mcp"
+    "docker:run": "docker run -d --name server-monitor-mcp -p 8300:8300 server-monitor-mcp"
   },
   "keywords": [
     "mcp",

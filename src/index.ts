@@ -8,6 +8,9 @@ import { ServerMonitor } from './services/serverMonitor';
 import { DockerMonitor } from './services/dockerMonitor';
 import { LogAnalyzer } from './services/logAnalyzer';
 
+// 환경 변수에서 포트 읽기 (기본값: 8300)
+const MCP_PORT = process.env.MCP_PORT || '8300';
+
 class ServerMonitorMCP {
   private server: Server;
   private serverMonitor: ServerMonitor;

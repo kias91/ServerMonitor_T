@@ -62,7 +62,7 @@ case $DEPLOY_MODE in
         docker run -d \
             --name $SERVICE_NAME \
             --restart unless-stopped \
-            -p 3000:3000 \
+            -p 8300:8300 \
             -v /var/run/docker.sock:/var/run/docker.sock:ro \
             -v "$(pwd)/logs:/app/logs" \
             $SERVICE_NAME
@@ -103,4 +103,4 @@ esac
 
 echo ""
 echo "🎉 배포가 완료되었습니다!"
-echo "서비스가 http://localhost:3000 에서 실행 중입니다."
+echo "서비스가 http://localhost:8300 에서 실행 중입니다."

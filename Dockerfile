@@ -33,7 +33,7 @@ RUN chown -R nextjs:nodejs /app
 USER nextjs
 
 # 포트 노출
-EXPOSE 3000
+EXPOSE 8300
 
 # 애플리케이션 시작
 CMD ["npm", "start"]
