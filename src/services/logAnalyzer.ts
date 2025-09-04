@@ -1,4 +1,4 @@
-import { DockerMonitor } from './dockerMonitor';
+import { DockerMonitor } from './dockerMonitor.js';
 
 export interface LogAnalysis {
   containerId: string;

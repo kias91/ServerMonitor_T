@@ -1,6 +1,7 @@
 {
   "name": "server-monitor-mcp",
   "version": "1.0.0",
+  "type": "module",
   "description": "MCP Server for monitoring Ubuntu server resources and Docker services",
   "main": "dist/index.js",
   "scripts": {
