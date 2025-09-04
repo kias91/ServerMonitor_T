@@ -13,6 +13,7 @@ services:
     environment:
       - NODE_ENV=production
       - MCP_PORT=8300
+      - DOCKER_ENV=true
     networks:
       - monitoring
 

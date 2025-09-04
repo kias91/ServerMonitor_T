@@ -214,6 +214,27 @@ DOMAIN=podo-life.co.kr
 
 ## 문제 해결
 
+### Docker 컨테이너가 계속 재시작되는 경우
+
+**문제**: Docker 컨테이너가 시작되자마자 종료되어 계속 재시작됩니다.
+
+**원인**: MCP 서버가 stdio 전송을 사용하는데, Docker 컨테이너에서는 stdin이 연결되지 않아 프로세스가 바로 종료됩니다.
+
+**해결방법**: 
+1. HTTP 서버 모드를 사용하세요:
+```bash
+# 업데이트된 배포 스크립트 사용
+./scripts/update-deploy.sh
+
+# 또는 수동으로 HTTP 서버 모드 실행
+docker run -d --name server-monitor-mcp -p 8300:8300 -e DOCKER_ENV=true server-monitor-mcp
+```
+
+2. 헬스 체크로 서버 상태 확인:
+```bash
+curl http://localhost:8300/health
+```
+
 ### Docker 권한 문제
 ```bash
 sudo usermod -aG docker $USER

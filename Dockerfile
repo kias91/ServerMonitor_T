@@ -35,5 +35,5 @@ USER nextjs
 # 포트 노출
 EXPOSE 8300
 
-# 애플리케이션 시작
-CMD ["npm", "start"]
+# 애플리케이션 시작 (HTTP 서버 모드)
+CMD ["npm", "run", "start:server"]

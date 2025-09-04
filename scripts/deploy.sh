@@ -65,6 +65,7 @@ case $DEPLOY_MODE in
             -p 8300:8300 \
             -v /var/run/docker.sock:/var/run/docker.sock:ro \
             -v "$(pwd)/logs:/app/logs" \
+            -e DOCKER_ENV=true \
             $SERVICE_NAME
         
         # 상태 확인

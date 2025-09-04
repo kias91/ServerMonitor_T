@@ -11,7 +11,7 @@ import { LogAnalyzer } from './services/logAnalyzer.js';
 // 환경 변수에서 포트 읽기 (기본값: 8300)
 const MCP_PORT = process.env.MCP_PORT || '8300';
 
-class ServerMonitorMCP {
+export class ServerMonitorMCP {
   private server: Server;
   private serverMonitor: ServerMonitor;
   private dockerMonitor: DockerMonitor;
@@ -297,15 +297,41 @@ class ServerMonitorMCP {
   }
 
   async start() {
-    const transport = new StdioServerTransport();
-    await this.server.connect(transport);
-    console.log('Server Monitor MCP가 시작되었습니다.');
+    // Docker 환경에서는 stdio 대신 다른 방식으로 실행
+    if (process.env.DOCKER_ENV === 'true') {
+      console.log('Server Monitor MCP가 Docker 환경에서 시작되었습니다.');
+      console.log(`포트: ${MCP_PORT}`);
+      
+      // Docker 환경에서는 프로세스가 종료되지 않도록 대기
+      process.on('SIGTERM', () => {
+        console.log('SIGTERM 신호를 받았습니다. 서버를 종료합니다.');
+        process.exit(0);
+      });
+      
+      process.on('SIGINT', () => {
+        console.log('SIGINT 신호를 받았습니다. 서버를 종료합니다.');
+        process.exit(0);
+      });
+      
+      // 무한 대기 (Docker 컨테이너가 계속 실행되도록)
+      setInterval(() => {
+        // 주기적으로 헬스 체크 로그 출력 (10분마다)
+      }, 10 * 60 * 1000);
+      
+    } else {
+      // 일반 환경에서는 stdio 전송 사용
+      const transport = new StdioServerTransport();
+      await this.server.connect(transport);
+      console.log('Server Monitor MCP가 시작되었습니다.');
+    }
   }
 }
 
-// 서버 시작
-const mcpServer = new ServerMonitorMCP();
-mcpServer.start().catch((error) => {
-  console.error('서버 시작 실패:', error);
-  process.exit(1);
-});
+// 모듈이 직접 실행될 때만 서버 시작
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const mcpServer = new ServerMonitorMCP();
+  mcpServer.start().catch((error) => {
+    console.error('서버 시작 실패:', error);
+    process.exit(1);
+  });
+}
